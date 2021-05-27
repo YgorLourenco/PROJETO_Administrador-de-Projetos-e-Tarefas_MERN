@@ -124,10 +124,10 @@ aside  {
 .projetos {
   margin-top: 10rem;
 }
-.listado-projetos li {
+.lista-projetos li {
   margin-bottom: 2rem;
 }
-.listado-projetos li a {
+.lista-projetos li a {
   font-size: 1.4rem;
   color: var(--gris2);
   line-height: 1.5;
@@ -139,12 +139,12 @@ aside  {
   background-color: var(--gris2);
   padding: 4rem;
 }
-.nombre-usuario {
+.nome-usuario {
   color: var(--branco);
   font-size: 2.2rem;
   margin: 0;
 }
-.nombre-usuario span {
+.nome-usuario span {
   font-weight: 900;
 }
 .nav-principal a {
@@ -179,19 +179,19 @@ aside  {
   width: 100%;
 }
 
-/** tarefas LISTADO **/
+/** tarefas lista **/
 .container-tarefas {
   padding: 4rem;
 }
 
 
 
-.listado-tarefas {
+.lista-tarefas {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.tarea {
+.tarefa {
   display: flex;
   justify-content: space-between;
   background-color: var(--branco);
@@ -211,15 +211,15 @@ aside  {
   -moz-box-shadow: 0px 6px 11px -8px rgba(0,0,0,0.9);
   box-shadow: 0px 6px 11px -8px rgba(0,0,0,0.9);
 }
-.tarea .acciones .btn:first-of-type {
+.tarefa .acoes .btn:first-of-type {
   margin-right: 1rem;
 }
-.tarea p {
+.tarefa p {
   font-size: 1.6rem;
   flex: 1;
   padding-right: 2rem;
 }
-.tarea .btn {
+.tarefa .btn {
   padding: .8rem;
   font-size:1.4rem;
   border-radius: 0;
@@ -265,20 +265,20 @@ aside  {
 
 
 
-.tarea-enter,
+.tarefa-enter,
 .projeto-enter {
   opacity: 0;
 }
-.tarea-enter-active,
+.tarefa-enter-active,
 .projeto-enter-active {
   opacity: 1;
   transition: opacity 200ms;
 }
-.tarea-exit,
+.tarefa-exit,
 .projeto-exit {
   opacity: 1;
 }
-.tarea-exit-active,
+.tarefa-exit-active,
 .projeto-exit-active {
   opacity: 0;
   transition: opacity 200ms;
