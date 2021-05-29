@@ -5,6 +5,7 @@ import Login from './components/auth/Login'
 import NovaConta from './components/auth/NovaConta'
 import Projetos from './components/projetos/Projetos'
 import ProjetoState from './context/projetos/projetoState'
+import TarefaState from './context/tarefas/tarefaState'
 
 function App() {
 
@@ -14,13 +15,15 @@ function App() {
   // ProjetoState vai servir como Context que vai transfirir diversos props entre todos os componentes
   return (
     <ProjetoState>
-      <Router>
-          <Switch>
-              <Route exact path="/" component={Login} />
-              <Route exact path="/nova-conta" component={NovaConta}/>
-              <Route exact path="/projetos" component={Projetos}/>
-          </Switch>
-      </Router>
+      <TarefaState>
+        <Router>
+            <Switch>
+                <Route exact path="/" component={Login} />
+                <Route exact path="/nova-conta" component={NovaConta}/>
+                <Route exact path="/projetos" component={Projetos}/>
+            </Switch>
+        </Router>
+      </TarefaState>
     </ProjetoState>
   );
 }

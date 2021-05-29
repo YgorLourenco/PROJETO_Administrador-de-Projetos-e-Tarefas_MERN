@@ -1,10 +1,9 @@
 import React, { useReducer } from 'react'
+import { v4 as uuid } from 'uuid';
 
 import projetoContext from './projetoContext'
 import projetoReducer from './projetoReducer'
-import {FORMULARIO_PROJETO, OBTER_PROJETOS} from '../../types'
-
-
+import {FORMULARIO_PROJETO, OBTER_PROJETOS, ADICIONAR_PROJETO, VALIDAR_FORMULARIO, PROJETO_ATUAL, ELIMINAR_PROJETO} from '../../types'
 
 const ProjetoState = props => {
 
@@ -17,7 +16,9 @@ const ProjetoState = props => {
 
     const initialState = {
         projetos : [],
-        formulario : false
+        formulario : false,
+        errorFormulario: false,
+        projeto: null,
     }
 
     // Dispatch para executar as ações
@@ -39,13 +40,53 @@ const ProjetoState = props => {
         })
     }
 
+    // Adicionar novo projeto
+    const adicionarProjeto = projeto => {
+        projeto.id = uuid
+
+        // Inserir o projeto em um state
+        dispatch({
+            type: ADICIONAR_PROJETO,
+            payload: projeto,
+        })
+    }
+
+    //Validar Formulario por erros
+    const mostrarError = () => {
+        dispatch({
+            type: VALIDAR_FORMULARIO,
+        })
+    }
+
+    // Seleciona o projeto que o usuario for clicar
+    const projetoAtual = projetoID => {
+        dispatch({
+            type: PROJETO_ATUAL,
+            payload: projetoID,
+        })
+    }
+
+    // Eliminar um projeto
+    const eliminarProjeto = projetoID => {
+        dispatch({
+            type: ELIMINAR_PROJETO,
+            payload: projetoID
+        })
+    }
+
     return(
         <projetoContext.Provider
             value={{
                 projetos: state.projetos,
                 formulario: state.formulario,
+                errorFormulario: state.errorFormulario,
+                projeto: state.projeto,
                 mostrarFormulario,
-                obterProjetos
+                obterProjetos,
+                adicionarProjeto,
+                mostrarError,
+                projetoAtual,
+                eliminarProjeto
             }}
         >
             {props.children}

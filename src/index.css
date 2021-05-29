@@ -230,7 +230,7 @@ aside  {
   margin-right: 1rem;
 }
 .estado button, 
-.mensaje {
+.mensagem {
   font-weight: 900;
   font-family: var(--textFont);
   font-size: 1rem;
@@ -239,16 +239,16 @@ aside  {
   cursor: pointer;
   border: none;
 }
-.mensaje {
+.mensagem {
   text-align: center;
   font-size: 1.6rem;
   border-radius: 0;
 }
-.mensaje:hover {
+.mensagem:hover {
   cursor: default;
 }
 .completo,
-.correcto {
+.correto {
   background-color: rgba(154, 252, 154, .3);
   color: var(--gris3);
 }
