@@ -1,5 +1,5 @@
 import React,{createContext} from 'react'
 
-const TarefaContext = createContext()
+const tarefaContext = createContext()
 
-export default TarefaContext
+export default tarefaContext
