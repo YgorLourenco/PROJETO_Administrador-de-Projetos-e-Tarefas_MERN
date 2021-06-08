@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import projetoContext from '../../context/projetos/projetoContext'
 import tarefaContext from '../../context/tarefas/tarefaContext'
 
@@ -11,7 +11,18 @@ const FormTarefa = () => {
 
     // Obter a função do context de tarefa
     const tarefasContext = useContext(tarefaContext)
-    const {errorTarefa, adicionarTarefa, validarTarefa, obterTarefas} = tarefasContext
+    const { tarefaSelecionada, errorTarefa, adicionarTarefa, validarTarefa, obterTarefas, atualizarTarefa, limparTarefa} = tarefasContext
+
+    // Effect que detecta se a uma tarefa selecionada
+    useEffect(() => {
+        if(tarefaSelecionada !== null) {
+            guardarTarefa(tarefaSelecionada)
+        } else {
+            guardarTarefa({
+                nome:'',
+            })
+        }
+    }, [tarefaSelecionada])
 
     // State do formulario
     const [tarefa, guardarTarefa] = useState({
@@ -45,10 +56,22 @@ const FormTarefa = () => {
             return;
         }
 
-        // Agregar a nova tarefa no state e tarefas
-        tarefa.projetoID = projetoAtual.id
-        tarefa.estado = false
-        adicionarTarefa(tarefa)
+        // Se essa edição e da nova tarefa
+        if(tarefaSelecionada === null) {
+            // Agregar a nova tarefa no state e tarefas
+            tarefa.projetoID = projetoAtual.id
+            tarefa.estado = false
+            adicionarTarefa(tarefa)
+        } else {
+            // Atualizar tarefa existente
+            atualizarTarefa(tarefa)
+
+            // Eleiminar tarefa selecionada do state
+            limparTarefa()
+
+        }
+
+        
 
         // Obter e filtrar as tarefas do projeto atual
         obterTarefas(projetoAtual.id)
@@ -79,7 +102,7 @@ const FormTarefa = () => {
                     <input 
                         type='submit'
                         className='btn btn-primario btn-submit btn-block'
-                        value='Adicionar Tarefa'
+                        value={tarefaSelecionada ? 'Editar Tarefa' : 'Agregar Tarefa'}
                     />
                 </div>
             </form>
