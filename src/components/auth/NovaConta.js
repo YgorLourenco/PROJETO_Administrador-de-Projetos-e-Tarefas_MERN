@@ -1,8 +1,27 @@
-import React,{useState} from 'react'
+import React,{useState, useContext, useEffect} from 'react'
 // Componente que linka uma página a outra
 import {Link} from 'react-router-dom'
+import AlertaContext from '../../context/alertas/alertaContext'
+import AuthContext from '../../context/autenticacion/authContext'
 
-const NovaConta = () => {
+const NovaConta = (props) => {
+
+    // Extrair os valores 
+    const alertaContext = useContext(AlertaContext)
+    const {alerta, mostrarAlerta} = alertaContext
+
+    const authContext = useContext(AuthContext)
+    const {mensagem, autenticado, registrarUsuario} = authContext
+
+    // Em caso o usuario esteja autenticado ou registrado ou seja um registro duplicado
+    useEffect(() => {
+        if(autenticado) {
+            props.history.push('/projetos')
+        }
+        if(mensagem) {
+            mostrarAlerta(mensagem.msg, mensagem.categoria) 
+        }
+    }, [mensagem, autenticado, props.history])
 
     // State para iniciar Sessão
     const [usuario, guardarUsuario] = useState({
@@ -28,18 +47,36 @@ const NovaConta = () => {
         e.preventDefault()
 
         // Validar para que não haja campos vazios
+        if(nome.trim() === '' || email.trim() === '' || password.trim() === '' || confirmar.trim() === '' ) {
+            mostrarAlerta('Todos os campos são obrigatórios', 'alerta-error') 
+            return
+        }
 
         //Senha minima de 6 caracteres
+        if(password.length < 6) {
+            mostrarAlerta('O password deve ser de menos 6 caracteres', 'alerta-error')
+            return
+        }
 
         // Confirmar se as duas senhas são iguais
+        if(password !== confirmar) {
+            mostrarAlerta('Os passwords não são iguais', 'alerta-error')
+            return
+        }
 
         // Mandando a informação
+        registrarUsuario({
+            nome,
+            email, 
+            password
+        })
 
     }
 
 
     return ( 
         <div className='form-usuario'>
+            {alerta ? (<div className={`alerta ${alerta.categoria}`}> {alerta.msg} </div>) : null}
             <div className='container-form sombra-dark'>
                 <h1>Criar Nova Conta</h1>
             

@@ -6,8 +6,12 @@ import NovaConta from './components/auth/NovaConta'
 import Projetos from './components/projetos/Projetos'
 import ProjetoState from './context/projetos/projetoState'
 import TarefaState from './context/tarefas/tarefaState'
+import AlertaState from './context/alertas/alertaState'
+import AuthState from './context/autenticacion/authState'
 
 function App() {
+
+  // console.log(process.env.REACT_APP_BACKEND_URL)
 
   // Router e para todas as páginas
   // Switch e para páginas especificas
@@ -16,13 +20,17 @@ function App() {
   return (
     <ProjetoState>
       <TarefaState>
-        <Router>
-            <Switch>
-                <Route exact path="/" component={Login} />
-                <Route exact path="/nova-conta" component={NovaConta}/>
-                <Route exact path="/projetos" component={Projetos}/>
-            </Switch>
-        </Router>
+        <AlertaState>
+          <AuthState>
+            <Router>
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <Route exact path="/nova-conta" component={NovaConta}/>
+                    <Route exact path="/projetos" component={Projetos}/>
+                </Switch>
+            </Router>
+          </AuthState>
+        </AlertaState>
       </TarefaState>
     </ProjetoState>
   );
