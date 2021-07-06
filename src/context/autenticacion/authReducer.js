@@ -10,11 +10,17 @@ export default (state, action) => {
     switch(action.type) {
 
         case REGISTRO_SUCEDIDO:
+        case LOGIN_SUCEDIDO:
             localStorage.setItem('token', action.payload.token)
             return{
                 ...state,
                 autenticado: true,
                 mensagem: null
+            }
+            case OBTER_USUARIO: 
+            return {
+                ...state,
+                usuario: action.payload, 
             }
 
         case LOGIN_ERROR:

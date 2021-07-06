@@ -40,7 +40,7 @@ const AuthState = props => {
             usuarioAutenticado()
 
         } catch (error) {
-            // console.log(error.response.data.msg)
+            console.log(error.response.data.msg)
             const alerta = {
                 msg: error.response.data.msg,
                 categoria: 'alerta-error'
@@ -61,13 +61,43 @@ const AuthState = props => {
 
         try {
             const resposta = await clienteAxios.get('/api/auth')
-            console.log(resposta)
+            // console.log(resposta)
+            dispatch({
+                type: OBTER_USUARIO,
+                payload: resposta.data.usuario
+            });
         } catch (error) {
             console.log(error.response)
             dispatch({
                 type: LOGIN_ERROR
             })
             
+        }
+    }
+
+    // Quando o usuário inicia a sessão
+    const iniciarSessao = async dados => {
+        try {
+            const resposta = await clienteAxios.post('/api/auth', dados)
+            
+            dispatch({
+                type: LOGIN_SUCEDIDO,
+                payload: resposta.data
+            })
+
+            // Obter o usuario
+            usuarioAutenticado()
+
+        } catch (error) {
+            console.log(error.response.data.msg)
+            const alerta = {
+                msg: error.response.data.msg,
+                categoria: 'alerta-error'
+            }
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: alerta
+            })
         }
     }
 
@@ -78,7 +108,8 @@ const AuthState = props => {
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensagem: state.mensagem,
-                registrarUsuario
+                registrarUsuario,
+                iniciarSessao
             }}
         >{props.children}
 

@@ -21,7 +21,7 @@ const NovaConta = (props) => {
         if(mensagem) {
             mostrarAlerta(mensagem.msg, mensagem.categoria) 
         }
-    }, [mensagem, autenticado, props.history])
+    }, [mensagem, autenticado, props.history, mostrarAlerta])
 
     // State para iniciar Sessão
     const [usuario, guardarUsuario] = useState({
