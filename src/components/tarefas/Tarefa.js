@@ -13,11 +13,11 @@ const Tarefa = ({tarefa}) => {
     
     // Obter a função do context de tarefa
     const tarefasContext = useContext(tarefaContext)
-    const {eliminarTarefa, obterTarefas, mudarEstadoTarefa, guardarTarefaAtual} = tarefasContext
+    const {eliminarTarefa, obterTarefas, atualizarTarefa, guardarTarefaAtual} = tarefasContext
 
     // Função que se executa quando o usuário preciona o botão de eliminar tarefa
     const tarefaEliminar = id => {
-        eliminarTarefa(id)
+        eliminarTarefa(id, projetoAtual._id)
         obterTarefas(projetoAtual.id)
     }
 
@@ -28,7 +28,7 @@ const Tarefa = ({tarefa}) => {
         } else {
             tarefa.estado = true
         }
-        mudarEstadoTarefa(tarefa)
+        atualizarTarefa(tarefa)
     }
 
     // Agregar uma tarefa atual quando o usuário desejar edita-la
@@ -71,7 +71,7 @@ const Tarefa = ({tarefa}) => {
                 <button
                     type='button'
                     className='btn btn-secundario'
-                    onClick={() => tarefaEliminar(tarefa.id)}
+                    onClick={() => tarefaEliminar(tarefa._id)}
                 >Eliminar</button>
             </div>
         </li>

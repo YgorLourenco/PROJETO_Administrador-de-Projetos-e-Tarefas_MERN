@@ -4,7 +4,14 @@ import TarefaReducer from './tarefaReducer'
 // import { v4 as uuid } from 'uuid';
 import clienteAxios from '../../config/axios'
 
-import {TAREFAS_PROJETO, ADICIONAR_TAREFA, VALIDAR_TAREFA, ELIMINAR_TAREFA, ESTADO_TAREFA, TAREFA_ATUAL, ATUALIZAR_TAREFA, LIMPAR_TAREFA} from '../../types'
+import {TAREFAS_PROJETO, 
+    ADICIONAR_TAREFA, 
+    VALIDAR_TAREFA, 
+    ELIMINAR_TAREFA, 
+    // ESTADO_TAREFA, 
+    TAREFA_ATUAL, 
+    ATUALIZAR_TAREFA, 
+    LIMPAR_TAREFA} from '../../types'
 
 const TarefaState = props => {
 
@@ -77,24 +84,40 @@ const TarefaState = props => {
     }
 
     // Eliminar tarefa por sua ID
-    const eliminarTarefa = id => {
-        dispatch({
-            type: ELIMINAR_TAREFA,
-            payload:id
-        })
+    const eliminarTarefa = async (id, projeto) => {
+        
         try {
-            
+            await clienteAxios.delete(`/api/tarefas/${id}`, {params:{projeto}})
+            dispatch({
+                type: ELIMINAR_TAREFA,
+                payload:id
+            })
         } catch (error) {
             console.log(error)
         }
     }
 
-    // Mudar o estado de cada tarefa
-    const mudarEstadoTarefa = tarefa => {
-        dispatch({
-            type: ESTADO_TAREFA,
-            payload: tarefa,
-        })
+    // // Mudar o estado de cada tarefa
+    // const mudarEstadoTarefa = tarefa => {
+    //     dispatch({
+    //         type: ESTADO_TAREFA,
+    //         payload: tarefa,
+    //     })
+    // }
+    // Edita e modifica uma tarefa
+    const atualizarTarefa = async tarefa => {
+        // console.log(tarefa)
+        
+        try {
+            const resultado = await clienteAxios.put(`/api/tarefas/${tarefa._id}`, tarefa)
+            console.log(resultado)
+            dispatch({
+                type: ATUALIZAR_TAREFA,
+                payload: resultado.data.tarefa
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Extrair uma tarefa para edição
@@ -105,13 +128,13 @@ const TarefaState = props => {
         })
     }
 
-    // Edita e modifica uma tarefa
-    const atualizarTarefa = tarefa => {
-        dispatch({
-            type: ATUALIZAR_TAREFA,
-            payload: tarefa
-        })
-    }
+    // // Edita e modifica uma tarefa
+    // const atualizarTarefa = tarefa => {
+    //     dispatch({
+    //         type: ATUALIZAR_TAREFA,
+    //         payload: tarefa
+    //     })
+    // }
 
     // Eliminar a tarefa selecionada
     const limparTarefa = () => {
@@ -131,7 +154,7 @@ const TarefaState = props => {
                 adicionarTarefa,
                 validarTarefa,
                 eliminarTarefa,
-                mudarEstadoTarefa,
+                // mudarEstadoTarefa,
                 guardarTarefaAtual,
                 atualizarTarefa,
                 limparTarefa

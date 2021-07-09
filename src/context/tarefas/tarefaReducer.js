@@ -1,6 +1,14 @@
-import {TAREFAS_PROJETO, ADICIONAR_TAREFA, VALIDAR_TAREFA, ELIMINAR_TAREFA, ESTADO_TAREFA, TAREFA_ATUAL, ATUALIZAR_TAREFA, LIMPAR_TAREFA} from '../../types'
+import {TAREFAS_PROJETO, 
+    ADICIONAR_TAREFA, 
+    VALIDAR_TAREFA, 
+    ELIMINAR_TAREFA, 
+    // ESTADO_TAREFA, 
+    TAREFA_ATUAL, 
+    ATUALIZAR_TAREFA, 
+    LIMPAR_TAREFA} from '../../types'
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
     switch(action.type) {
         case TAREFAS_PROJETO:
@@ -22,13 +30,13 @@ export default (state, action) => {
         case ELIMINAR_TAREFA:
             return{
                 ...state,
-                tarefasprojeto: state.tarefasprojeto.filter(tarefa => tarefa.id !== action.payload)
+                tarefasprojeto: state.tarefasprojeto.filter(tarefa => tarefa._id !== action.payload)
             }
         case ATUALIZAR_TAREFA:
-        case ESTADO_TAREFA:
+        // case ESTADO_TAREFA:
             return{
                 ...state,
-                tarefasprojeto: state.tarefasprojeto.map(tarefa => tarefa.id === action.payload.id ? action.payload : tarefa)
+                tarefasprojeto: state.tarefasprojeto.map(tarefa => tarefa._id === action.payload._id ? action.payload : tarefa)
 
             }
         case TAREFA_ATUAL:

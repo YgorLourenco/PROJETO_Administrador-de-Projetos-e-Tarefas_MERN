@@ -21,7 +21,8 @@ const NovaConta = (props) => {
         if(mensagem) {
             mostrarAlerta(mensagem.msg, mensagem.categoria) 
         }
-    }, [mensagem, autenticado, props.history, mostrarAlerta])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mensagem, autenticado, props.history])
 
     // State para iniciar Sessão
     const [usuario, guardarUsuario] = useState({
