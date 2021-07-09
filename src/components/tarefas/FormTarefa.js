@@ -59,8 +59,7 @@ const FormTarefa = () => {
         // Se essa edição e da nova tarefa
         if(tarefaSelecionada === null) {
             // Agregar a nova tarefa no state e tarefas
-            tarefa.projetoID = projetoAtual.id
-            tarefa.estado = false
+            tarefa.projeto = projetoAtual._id
             adicionarTarefa(tarefa)
         } else {
             // Atualizar tarefa existente

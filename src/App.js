@@ -8,6 +8,14 @@ import ProjetoState from './context/projetos/projetoState'
 import TarefaState from './context/tarefas/tarefaState'
 import AlertaState from './context/alertas/alertaState'
 import AuthState from './context/autenticacion/authState'
+import tokenAuth from './config/tokenAuth'
+import RotaPrivada from './components/rotas/RotaPrivada'
+
+// Revisar se tem um token
+const token = localStorage.getItem('token')
+if(token) {
+  tokenAuth(token)
+}
 
 function App() {
 
@@ -26,7 +34,7 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={Login} />
                     <Route exact path="/nova-conta" component={NovaConta}/>
-                    <Route exact path="/projetos" component={Projetos}/>
+                    <RotaPrivada exact path="/projetos" component={Projetos}/>
                 </Switch>
             </Router>
           </AuthState>

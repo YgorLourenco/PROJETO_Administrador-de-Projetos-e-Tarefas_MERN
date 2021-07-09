@@ -15,12 +15,13 @@ const Login = (props) => {
 
     // Em caso o usuario e o password não exista
     useEffect(() => {
-        // if(autenticado) {
-        //     props.history.push('/projetos')
-        // }
+        if(autenticado) {
+             props.history.push('/projetos')
+        }
         if(mensagem) {
             mostrarAlerta(mensagem.msg, mensagem.categoria) 
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mensagem, autenticado, props.history])
 
     // State para iniciar Sessão

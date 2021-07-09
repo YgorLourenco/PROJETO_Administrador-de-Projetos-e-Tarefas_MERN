@@ -20,7 +20,8 @@ const AuthState = props => {
         token: localStorage.getItem('token'),
         autenticado: null,
         usuario: null,
-        mensagem: null
+        mensagem: null,
+        carregando: true, // Tira o "flash" ao clicar para recarregar
     }
 
     const [state, dispatch] = useReducer(AuthReducer, initialState)
@@ -79,6 +80,8 @@ const AuthState = props => {
     const iniciarSessao = async dados => {
         try {
             const resposta = await clienteAxios.post('/api/auth', dados)
+            console.log(resposta.data)
+            console.log(dados)
             
             dispatch({
                 type: LOGIN_SUCEDIDO,
@@ -101,6 +104,12 @@ const AuthState = props => {
         }
     }
 
+    const terminarSessao = () => {
+        dispatch({
+            type: TERMINAR_SESSAO,
+        })
+    }
+
     return(
         <AuthContext.Provider
             value={{
@@ -108,8 +117,11 @@ const AuthState = props => {
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensagem: state.mensagem,
+                carregando: state.carregando,
                 registrarUsuario,
-                iniciarSessao
+                iniciarSessao,
+                usuarioAutenticado,
+                terminarSessao
             }}
         >{props.children}
 

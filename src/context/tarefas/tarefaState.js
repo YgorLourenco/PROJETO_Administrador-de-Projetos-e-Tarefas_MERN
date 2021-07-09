@@ -1,29 +1,30 @@
 import React, {useReducer} from 'react'
 import TarefaContext from './tarefaContext'
 import TarefaReducer from './tarefaReducer'
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
+import clienteAxios from '../../config/axios'
 
 import {TAREFAS_PROJETO, ADICIONAR_TAREFA, VALIDAR_TAREFA, ELIMINAR_TAREFA, ESTADO_TAREFA, TAREFA_ATUAL, ATUALIZAR_TAREFA, LIMPAR_TAREFA} from '../../types'
 
 const TarefaState = props => {
 
     const initialState = {
-        tarefas: [
-            {id: 1 , nome:'Escolher plataforma', estado:true, projetoID: 1},
-            {id: 2 , nome:'Escolher Cores', estado:false, projetoID: 2},
-            {id: 3 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
-            {id: 4 , nome:'Escolher Hosting', estado:true, projetoID: 4},
-            {id: 5 , nome:'Escolher plataforma', estado:true, projetoID: 1},
-            {id: 6 , nome:'Escolher Cores', estado:false, projetoID: 2},
-            {id: 7 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
-            {id: 8 , nome:'Escolher plataforma', estado:true, projetoID: 1},
-            {id: 9 , nome:'Escolher Cores', estado:false, projetoID: 2},
-            {id: 10 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
-            {id: 11, nome:'Escolher plataforma', estado:true, projetoID: 1},
-            {id: 12, nome:'Escolher Cores', estado:false, projetoID: 2},
-            {id: 13, nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
-        ],
-        tarefasprojeto: null,
+        // tarefas: [
+        //     {id: 1 , nome:'Escolher plataforma', estado:true, projetoID: 1},
+        //     {id: 2 , nome:'Escolher Cores', estado:false, projetoID: 2},
+        //     {id: 3 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
+        //     {id: 4 , nome:'Escolher Hosting', estado:true, projetoID: 4},
+        //     {id: 5 , nome:'Escolher plataforma', estado:true, projetoID: 1},
+        //     {id: 6 , nome:'Escolher Cores', estado:false, projetoID: 2},
+        //     {id: 7 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
+        //     {id: 8 , nome:'Escolher plataforma', estado:true, projetoID: 1},
+        //     {id: 9 , nome:'Escolher Cores', estado:false, projetoID: 2},
+        //     {id: 10 , nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
+        //     {id: 11, nome:'Escolher plataforma', estado:true, projetoID: 1},
+        //     {id: 12, nome:'Escolher Cores', estado:false, projetoID: 2},
+        //     {id: 13, nome:'Escolher Plataformas de pagamento', estado:false, projetoID: 3},
+        // ],
+        tarefasprojeto: [],
         errorTarefa: false,
         tarefaSelecionada: null
     }
@@ -35,20 +36,37 @@ const TarefaState = props => {
 
 
     // Obter as tarefas de um projeto
-    const obterTarefas = projetoID => {
-        dispatch({
-            type: TAREFAS_PROJETO,
-            payload: projetoID
-        })
+    const obterTarefas = async projeto => {
+        
+        console.log(projeto)
+        
+        try {
+            const resultado = await clienteAxios.get('/api/tarefas', {params:{projeto}})
+            console.log(resultado)
+            dispatch({
+                type: TAREFAS_PROJETO,
+                payload: resultado.data.tarefas
+                // payload: projetoID
+            })
+        } catch (error) {
+            
+        }
     }
 
     // Adicionar uma tarefa a um projeto selecionado
-    const adicionarTarefa = tarefa => {
-        tarefa.id = uuid
-        dispatch({
-            type: ADICIONAR_TAREFA,
-            payload: tarefa
-        })
+    const adicionarTarefa = async tarefa => {
+        // tarefa.id = uuid
+        console.log(tarefa)
+        try {
+            const resultado = await clienteAxios.post('/api/tarefas',tarefa)
+            console.log(resultado)
+            dispatch({
+                type: ADICIONAR_TAREFA,
+                payload: tarefa
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Validar e mostrar um error em caso de que for necessário
@@ -64,6 +82,11 @@ const TarefaState = props => {
             type: ELIMINAR_TAREFA,
             payload:id
         })
+        try {
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Mudar o estado de cada tarefa
@@ -100,7 +123,7 @@ const TarefaState = props => {
     return(
         <TarefaContext.Provider
             value={{
-                tarefas: state.tarefas,
+                // tarefas: state.tarefas,
                 tarefasprojeto : state.tarefasprojeto,
                 errorTarefa: state.errorTarefa,
                 tarefaSelecionada: state.tarefaSelecionada,

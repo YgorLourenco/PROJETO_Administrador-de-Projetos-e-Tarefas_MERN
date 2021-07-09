@@ -23,7 +23,7 @@ const ListaTarefas = () => {
 
     // Eliminar um projeto
     const onClickEliminar = () => {
-        eliminarProjeto(projetoAtual.id)
+        eliminarProjeto(projetoAtual._id)
     }
 
     return ( 
